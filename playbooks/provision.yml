@@ -20,8 +20,8 @@
 
 - import_playbook: /usr/share/awx_installer/installer/install.yml
   vars:
-    dockerhub_base: '{{ awx_image_org }}'
-    dockerhub_version: '{{ awx_image_tag }}'
+    dockerhub_base: '{{ awx_image_org | default("ansible") }}'
+    dockerhub_version: '{{ awx_image_tag | default("latest") }}'
     pg_hostname: '{{ lookup("env", "DB_HOST") | default(awx_postgresql_hostname, true) | default("") }}'
     pg_database: '{{ lookup("env", "DB_NAME") | default(awx_postgresql_dbname, true) | default("awx") }}'
     pg_username: '{{ lookup("env", "DB_USER") | default(awx_postgresql_user, true) | default("awx") }}'
