@@ -1,0 +1,129 @@
+version: 1.0
+name: tower-apb
+description: AWX APB Implementation
+bindable: False
+async: optional
+metadata:
+  displayName: Ansible Tower (APB)
+  longDescription: An APB that deploys AWX (Upstream Ansible Tower)
+  documentationUrl: https://docs.ansible.com/ansible-tower/
+plans:
+  - name: all-in-one
+    description: An APB that deploys AWX and postgresql together
+    free: True
+    metadata:
+      displayName: All-in-one
+      longDescription: This plan deploys a single AWX instance with a postgresql backend
+      cost: $0.00
+    parameters:
+      - name: skip_tls_verify
+        title: Skip OpenShift TLS verify
+        description: If true, will not TLS verify when making API requests
+        default: false
+        required: false
+        type: bool
+      - name: postgresql_emptydir
+        title: PostgreSQL EmptyDir
+        description: Use an EmtpyDir to back PostgreSQL (not recommended for production)
+        default: false
+        required: false
+        type: bool
+      - name: awx_image_org
+        title: AWX image organization
+        description: the organization to pull images from
+        default: ansible
+        type: string
+        required: false
+      - name: awx_image_tag
+        title: AWX image tag
+        description: the image tag to pull
+        default: latest
+        type: string
+        required: false
+      - name: awx_postgresql_volume_capacity
+        title: PostgreSQL volume capacity
+        description: the size of the persistent volume backing PostgreSQL (in GB)
+        default: 5
+        type: string
+        required: false
+
+  - name: external-pg
+    description: AWX with an external database
+    free: True
+    metadata:
+      displayName: External
+      longDescription: This plan deploys a single AWX instance using an external PostgreSQL backend
+      cost: $0.00
+    parameters:
+      - name: skip_tls_verify
+        title: Skip OpenShift TLS verify
+        description: If true, will not TLS verify when making API requests
+        default: false
+        required: false
+        type: bool
+      - name: awx_image_org
+        title: AWX image organization
+        description: the organization to pull images from
+        default: ansible
+        type: string
+        required: false
+      - name: awx_image_tag
+        title: AWX image tag
+        description: the image tag to pull
+        default: latest
+        type: string
+        required: false
+      - name: awx_postgresql_hostname
+        title: PostgreSQL hostname
+        description: the hostname of the PostgreSQL database
+        type: string
+        required: true
+      - name: awx_postgresql_dbname
+        title: PostgreSQL database name
+        description: the name of the PostgreSQL database
+        type: string
+        required: true
+      - name: awx_postgresql_user
+        title: PostgreSQL user name
+        description: the name of the PostgreSQL user
+        type: string
+        required: true
+      - name: awx_postgresql_password
+        title: PostgreSQL password
+        description: the password to the PostgreSQL database
+        type: string
+        required: true
+      - name: awx_postgresql_port
+        title: PostgreSQL port
+        description: the port the PostgreSQL database is listening on
+        default: 5432
+        type: string
+        required: false
+
+  - name: bind-pg
+    description: AWX with bind credentials
+    free: True
+    metadata:
+      displayName: Bind
+      longDescription: This plan deploys a single AWX instance using bind credentials from a provisioned PostgreSQL instance
+      cost: $0.00
+    parameters:
+      - name: skip_tls_verify
+        title: Skip OpenShift TLS verify
+        description: skip TLS verify when making OpenShift API requests
+        default: false
+        required: false
+        type: bool
+      - name: awx_image_org
+        title: AWX image organization
+        description: the organization to pull images from
+        default: ansible
+        type: string
+        required: false
+      - name: awx_image_tag
+        title: AWX image tag
+        description: the image tag to pull
+        default: latest
+        type: string
+        required: false
+
