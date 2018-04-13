@@ -61,6 +61,11 @@ plans:
         default: false
         required: false
         type: bool
+      - name: awx_admin_password
+        title: AWX Admin Password
+        description: The password for admin user
+        default: password
+        required: false
       - name: awx_image_org
         title: AWX image organization
         description: the organization to pull images from

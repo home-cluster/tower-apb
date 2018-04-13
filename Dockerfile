@@ -76,16 +76,6 @@ ZwogICAgICAgIGRlc2NyaXB0aW9uOiB0aGUgaW1hZ2UgdGFnIHRvIHB1bGwKICAgICAgICBkZWZh\
 dWx0OiBsYXRlc3QKICAgICAgICB0eXBlOiBzdHJpbmcKICAgICAgICByZXF1aXJlZDogZmFsc2UK\
 Cg=="
 
-
-
-
-
-
-
-
-
-
-
 RUN curl -L https://github.com/ansible/awx/archive/devel.tar.gz -o /tmp/awx.tar.gz \
   && mkdir -p /usr/share/awx_installer \
   && tar --strip-components=1 -xvf /tmp/awx.tar.gz -C /usr/share/awx_installer \

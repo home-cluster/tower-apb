@@ -8,38 +8,45 @@
     enable_dangerous_logs: false
   tasks:
     - when: admin_api_token is not defined
-      block:
-      - command: oc whoami -t
-        register: token
-      - set_fact:
-          openshift_token: '{{ token.stdout }}'
       no_log: '{{ not enable_dangerous_logs }}'
-    - when: admin_api_token is defined
-      set_fact:
+      block:
+      - name: read token for current user
+        command: oc whoami -t
+        register: token
+      - name: Set openshift_token to current user token
+        set_fact:
+          openshift_token: '{{ token.stdout }}'
+
+    - name: set openshift_token to provided token
+        set_fact:
         openshift_token: '{{ admin_api_token }}'
       no_log: '{{ not enable_dangerous_logs }}'
+      when: admin_api_token is defined
+
     - name: Authenticate with OpenShift via token
       shell: |
         oc login {{ openshift_host }} \
           --token {{ openshift_token }} \
           --insecure-skip-tls-verify={{ openshift_skip_tls_verify | default(false) | bool }}
       no_log: '{{ not enable_dangerous_logs }}'
-    - command: oc whoami
+
+    - name: Get name of current user
+      command: oc whoami
       register: user
 
     - name: Set facts for variables that cannot be defined if they are not set
       set_fact:
-        '{{ item[0] }}': '{{ item[1] }}'
-      when: item[1] is not None
-      with_items:
-        - [[pg_hostname, '{{ lookup("env", "DB_HOST") | default(awx_postgresql_hostname, true) | default(None) }}']]
-        - [[pg_database, '{{ lookup("env", "DB_NAME") | default(awx_postgresql_dbname, true) | default(None) }}']]
-        - [[pg_username, '{{ lookup("env", "DB_USER") | default(awx_postgresql_user, true) | default(None) }}']]
-        - [[pg_password, '{{ lookup("env", "DB_PASSWORD") | default(awx_postgresql_password, true) | default(None) }}']]
-        - [[pg_port, '{{ lookup("env", "DB_PORT") | default(awx_postgresql_port, true) | default(None) }}']]
+        pg_hostname: '{{ t_pg_host }}'
+      when: t_pg_host
+      vars:
+        t_pg_host: '{{ lookup("env", "DB_HOST") | default(awx_postgresql_hostname, true) | default(None) }}'
 
 - import_playbook: /usr/share/awx_installer/installer/install.yml
   vars:
+    pg_database: '{{ lookup("env", "DB_NAME") | default(awx_postgresql_dbname, true) | default("awx") }}'
+    pg_username: '{{ lookup("env", "DB_USER") | default(awx_postgresql_user, true) | default("awx") }}'
+    pg_password: '{{ lookup("env", "DB_PASSWORD") | default(awx_postgresql_password, true) | default("awxpassword") }}'
+    pg_port: '{{ lookup("env", "DB_PORT") | default(awx_postgresql_port, true) | default(5432) }}'
     dockerhub_base: '{{ awx_image_org | default("ansible") }}'
     dockerhub_version: '{{ awx_image_tag | default("latest") }}'
     pg_volume_capacity: '{{ awx_postgresql_volume_capacity | default("5", true) }}'
