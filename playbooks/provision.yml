@@ -40,6 +40,24 @@
       when: t_pg_host
       vars:
         t_pg_host: '{{ lookup("env", "DB_HOST") | default(awx_postgresql_hostname, true) | default(None) }}'
+    - name: Fix rolebindings for deployer
+      k8s_raw:
+        resource_definition:
+          apiVersion: v1
+          kind: RoleBinding
+          metadata:
+            name: system:deployers
+            namespace: '{{ namespace }}'
+          roleRef:
+            name: system:deployer
+            kind: ClusterRole
+          subjects:
+          - kind: ServiceAccount
+            name: deployer
+            namespace: '{{ namespace }}'
+          userNames:
+          - system:serviceaccount:{{ namespace }}:deployer
+
 
 - import_playbook: /usr/share/awx_installer/installer/install.yml
   vars:
