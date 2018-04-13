@@ -16,6 +16,11 @@ plans:
       longDescription: This plan deploys a single AWX instance with a postgresql backend
       cost: $0.00
     parameters:
+      - name: admin_api_token
+        title: Admin API Token
+        description: An OpenShift API Token with admin-level permissions.
+        required: false
+        type: string
       - name: skip_tls_verify
         title: Skip OpenShift TLS verify
         description: If true, will not TLS verify when making API requests
@@ -55,6 +60,11 @@ plans:
       longDescription: This plan deploys a single AWX instance using an external PostgreSQL backend
       cost: $0.00
     parameters:
+      - name: admin_api_token
+        title: Admin API Token
+        description: An OpenShift API Token with admin-level permissions.
+        required: false
+        type: string
       - name: skip_tls_verify
         title: Skip OpenShift TLS verify
         description: If true, will not TLS verify when making API requests
@@ -113,6 +123,11 @@ plans:
       longDescription: This plan deploys a single AWX instance using bind credentials from a provisioned PostgreSQL instance
       cost: $0.00
     parameters:
+      - name: admin_api_token
+        title: Admin API Token
+        description: An OpenShift API Token with admin-level permissions.
+        required: false
+        type: string
       - name: skip_tls_verify
         title: Skip OpenShift TLS verify
         description: skip TLS verify when making OpenShift API requests
