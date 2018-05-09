@@ -28,7 +28,7 @@
       command: oc whoami
       register: user
 
-   - name: Set facts for variables that cannot be defined if they are not set
+    - name: Set facts for variables that cannot be defined if they are not set
       set_fact:
         '{{ item.name }}': '{{ item.value }}'
       when: item.value
