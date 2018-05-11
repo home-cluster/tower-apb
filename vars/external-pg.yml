@@ -1,0 +1,8 @@
+---
+
+
+pg_hostname: '{{ lookup("env", "DB_HOST") | default(awx_postgresql_hostname, true) }}'
+pg_database: '{{ lookup("env", "DB_NAME") | default(awx_postgresql_dbname, true) }}'
+pg_username: '{{ lookup("env", "DB_USER") | default(awx_postgresql_user, true) }}'
+pg_password: '{{ lookup("env", "DB_PASSWORD") | default(awx_postgresql_password, true) }}'
+pg_port: '{{ lookup("env", "DB_PORT") | default(awx_postgresql_port, true) | default(5432) }}'
