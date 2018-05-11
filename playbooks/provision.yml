@@ -61,6 +61,7 @@
   vars:
     openshift_host: 'https://kubernetes.default'
     openshift_token: '{{ l_openshift_token }}'
+    openshift_skip_tls_verify: '{{ insecure|default(false) }}'
     dockerhub_base: '{{ awx_image_org | default("ansible") }}'
     dockerhub_version: '{{ awx_image_tag | default("latest") }}'
     openshift_user: '{{ user.stdout }}'

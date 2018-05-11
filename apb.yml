@@ -51,6 +51,11 @@ plans:
         description: The password for admin user
         default: password
         required: false
+      - name: insecure
+        title: Skip OpenShift TLS verify
+        description: skip TLS verify when making OpenShift API requests
+        default: false
+        required: false
 
   - name: external-pg
     description: AWX with an external database
@@ -109,6 +114,11 @@ plans:
         default: 5432
         type: string
         required: false
+      - name: insecure
+        title: Skip OpenShift TLS verify
+        description: skip TLS verify when making OpenShift API requests
+        default: false
+        required: false
 
   - name: bind-pg
     description: AWX with bind credentials
@@ -140,4 +150,9 @@ plans:
         title: AWX Admin Password
         description: The password for admin user
         default: password
+        required: false
+      - name: insecure
+        title: Skip OpenShift TLS verify
+        description: skip TLS verify when making OpenShift API requests
+        default: false
         required: false

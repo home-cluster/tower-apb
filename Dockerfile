@@ -97,6 +97,7 @@ RUN cp /usr/share/awx_installer/installer/inventory /etc/ansible/hosts
 ADD playbooks /opt/apb/actions
 ADD . /opt/ansible/roles/tower-apb
 ADD vars /var/awx/
+ADD ansible.cfg /etc/ansible/ansible.cfg
 
 RUN chmod -R g=u /opt/{ansible,apb}
 
