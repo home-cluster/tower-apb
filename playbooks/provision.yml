@@ -40,9 +40,9 @@
         - name: web_cpu_request
           value: '{{ 0 if not recommended_resources else none }}'
         - name: task_mem_request
-          value: '{{ 0 if not recommended_resources else none }}'
+          value: '{{ 1 if not recommended_resources else none }}'
         - name: task_cpu_request
-          value: '{{ 0 if not recommended_resources else none }}'
+          value: '{{ 1000 if not recommended_resources else none }}'
         - name: rabbitmq_mem_request
           value: '{{ 0 if not recommended_resources else none }}'
         - name: rabbitmq_cpu_request
@@ -65,5 +65,5 @@
     openshift_user: '{{ user.stdout }}'
     openshift_skip_tls_verify: '{{ skip_tls_verify | default(false) | bool }}'
     openshift_pg_emptydir: '{{ postgresql_emptydir | default(false) | bool }}'
-    awx_openshift_project: '{{ namespace }}'
+    openshift_project: '{{ namespace }}'
     awx_kubernetes_namespace: '{{ namespace }}'
