@@ -16,19 +16,13 @@ plans:
       longDescription: This plan deploys a single AWX instance with a postgresql backend
       cost: $0.00
     parameters:
-      - name: skip_tls_verify
-        title: Skip OpenShift TLS verify
-        description: If true, will not TLS verify when making API requests
-        default: false
-        required: false
-        type: bool
       - name: recommended_resources
         title: Use the recommended minimum resource requirements
         description: If true, will require minimum recommended resources for Tower containers
         default: true
-        required: true
+        required: false
         type: bool
-      - name: postgresql_emptydir
+      - name: awx_postgresql_emptydir
         title: PostgreSQL EmptyDir
         description: Use an EmtpyDir to back PostgreSQL (not recommended for production)
         default: false
@@ -52,6 +46,11 @@ plans:
         default: 5
         type: string
         required: false
+      - name: awx_admin_password
+        title: AWX Admin Password
+        description: The password for admin user
+        default: password
+        required: false
 
   - name: external-pg
     description: AWX with an external database
@@ -65,17 +64,6 @@ plans:
         title: Use the recommended minimum resource requirements
         description: If true, will require minimum recommended resources for Tower containers
         default: true
-        required: true
-        type: bool
-      - name: admin_api_token
-        title: Admin API Token
-        description: An OpenShift API Token with admin-level permissions.
-        required: false
-        type: string
-      - name: skip_tls_verify
-        title: Skip OpenShift TLS verify
-        description: If true, will not TLS verify when making API requests
-        default: false
         required: false
         type: bool
       - name: awx_admin_password
@@ -134,12 +122,6 @@ plans:
         title: Use the recommended minimum resource requirements
         description: If true, will require minimum recommended resources for Tower containers
         default: true
-        required: true
-        type: bool
-      - name: skip_tls_verify
-        title: Skip OpenShift TLS verify
-        description: skip TLS verify when making OpenShift API requests
-        default: false
         required: false
         type: bool
       - name: awx_image_org
@@ -154,4 +136,8 @@ plans:
         default: latest
         type: string
         required: false
-
+      - name: awx_admin_password
+        title: AWX Admin Password
+        description: The password for admin user
+        default: password
+        required: false
