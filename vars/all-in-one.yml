@@ -2,3 +2,7 @@
 
 pg_volume_capacity: '{{ awx_postgresql_volume_capacity | default("5", true) }}'
 openshift_pg_emptydir: '{{ awx_postgresql_emptydir | default(false) | bool }}'
+pg_database: awx
+pg_username: awx
+pg_password: awxpass
+pg_port: 5432
