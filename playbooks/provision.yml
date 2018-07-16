@@ -58,6 +58,24 @@
       vars:
         file_vars: '{{ lookup("file", var_file) | from_yaml }}'
 
+    - name: Create the PVC for PostgreSQL persistence
+      k8s:
+        definition:
+          kind: PersistentVolumeClaim
+          apiVersion: v1
+          metadata:
+            name: '{{ openshift_pg_pvc_name }}'
+            namespace: '{{ namespace}}'
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: '{{ pg_volume_capacity }}Gi'
+      when:
+        - (_apb_plan_id|default('all-in-one')) == 'all-in-one'
+        - not awx_postgresql_emptydir
+
 - import_playbook: /usr/share/awx_installer/installer/install.yml
   vars:
     openshift_host: 'https://kubernetes.default'
@@ -69,3 +87,4 @@
     openshift_project: '{{ namespace }}'
     awx_kubernetes_namespace: '{{ namespace }}'
     default_admin_password: '{{ awx_admin_password|default("password") }}'
+    secret_key: '{{ awx_secret_key|default("awxsecret") }}'
